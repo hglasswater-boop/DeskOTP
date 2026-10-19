@@ -1,0 +1,21 @@
+name: Windows build (manual)
+on:
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  build:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Install and build
+        shell: pwsh
+        run: .\build_windows.ps1
+      - uses: actions/upload-artifact@v4
+        with:
+          name: DeskOTP-Windows-unsigned
+          path: dist/DeskOTP/
+          if-no-files-found: error
